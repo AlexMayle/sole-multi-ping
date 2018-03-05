@@ -1,0 +1,14 @@
+This software consists of a simple web server (/server) and a script single
+script in /cgi-bin. The server exposed a single endpoint (host:8000/cgi-bin/health_check.py). 
+The server can be started using the following.
+
+$ python /server/init.py
+
+This is also where the port is define. The default is 8000. Upon receiving a request, the
+server executes /cgi-bin/healh_check.py. This returns with a status code of 0 is all
+collections are healthy, and a some non-zero code if at least one collection is unhealthy. 
+The server will send 200 OK and 500 Server Error for the former and latter cases, respectively.
+The AWS load balancer interprets 200 as 'inService' and anything else as 'outOfService.'
+
+The collections to be checked and how they are checked can be configured in the script itself.
+By default it checks all of them using the SolR CLI 'healtheck' command.
